@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TripBuddy</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/companion.css">
+    
+  </head>
+  <body>
+
+    <!-- Header -->
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/img/logo-full.png" alt="logo">
+            </div>
+            <ul class="nav-list">
+                <li><a href="/home#home">Home</a></li>
+                <li><a href="/home#destination">Discover</a></li>
+                <li><a href="/home#cta">Services</a></li>
+                <li><a href="/home#why-us">Why WeGo</a></li>
+                <li><a href="/home#footer">Contact</a></li>
+            </ul>
+            <% if (user) { %>
+              <div onclick="window.location.href=`/profile/<%= user._id %>`" class="user-profile">
+                <img class="user-avatar" src="<%= user.profileImage %>" alt="avatar">
+                <span><%= user.name %></span>
+              </div>
+              <% } else { %>
+              <a onclick="window.location.href = `/auth`" class="btn">Sign up</a>
+              <% } %>
+              
+          
+
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Left Column: Flip Container for Join/Post Trip -->
+      <div class="column sidebar">
+        <div class="flip-container">
+          <div class="flipper" id="sidebar-flipper">
+            <!-- Front Side: Join a Trip -->
+            <div class="flip-front">
+              <div class="column-header">
+                <h2 class="column-title">Join a Trip</h2>
+              </div>
+              <div class="column-content">
+                <div class="filter-card">
+                  <div class="search-container">
+                    <input
+                      type="text"
+                      class="search-input"
+                      placeholder="Search by destination..."
+                      id="search-input"
+                    />
+                  </div>
+
+                  <div class="filter-group">
+                    <div class="filter-title">Sort by posted date</div>
+                    <div class="filter-options">
+                      <button class="btn" data-sort="date-old">
+                        Oldest posted
+                      </button>
+                      <button class="btn" data-sort="date-new">
+                        Latest posted
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="filter-group">
+                    <div class="filter-title">Sort by starting date</div>
+                    <div class="filter-options">
+                      <button class="btn" data-date="within-week">
+                        Within a week
+                      </button>
+                      <button class="btn" data-date="after-15-days">
+                        After 15 days
+                      </button>
+                      <button class="btn" data-date="after-month">
+                        After a month
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="filter-group">
+                    <div class="filter-title">Filter by interest</div>
+                    <div class="filter-options">
+                      <button class="btn" data-filter="interested">
+                        Trips I'm interested in
+                      </button>
+                      <button class="btn" data-filter="all">All trips</button>
+                    </div>
+                  </div>
+                </div>
+                <h3 style="text-align: center; font-weight: 600">OR</h3>
+                <button
+                  class="btn btn-secondary"
+                  id="post-trip-btn"
+                  style="width: 100%; margin-top: 0.5rem"
+                >
+                  Post a Trip
+                </button>
+              </div>
+            </div>
+
+            <!-- Back Side: Post a Trip -->
+            <div class="flip-back">
+              <div class="column-header">
+                <h2 class="column-title">Post a Trip</h2>
+              </div>
+              <div class="column-content">
+                <form id="post-trip-form">
+                  <div class="form-group">
+                    <label class="form-label" for="destination"
+                      >Destination</label
+                    >
+                    <input
+                      type="text"
+                      class="form-input"
+                      id="destination"
+                      required
+                    />
+                  </div>
+                  <div class="form-dates">
+                    <div class="form-group date">
+                      <label class="form-label" for="start-date"
+                        >Start Date</label
+                      >
+                      <input
+                        type="date"
+                        class="form-input"
+                        id="start-date"
+                        required
+                      />
+                    </div>
+                    <div class="form-group date">
+                      <label class="form-label" for="end-date">End Date</label>
+                      <input
+                        type="date"
+                        class="form-input"
+                        id="end-date"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="companions-needed"
+                      >Number of Companions Needed</label
+                    >
+                    <input
+                      type="number"
+                      class="form-input"
+                      id="companions-needed"
+                      min="1"
+                      max="10"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="description"
+                      >Description (Optional)</label
+                    >
+                    <textarea
+                      class="form-input"
+                      id="description"
+                      placeholder="Tell about this trip and mention what type of companion you need..."
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    style="width: 100%"
+                  >
+                    Post Trip
+                  </button>
+                </form>
+                <button
+                  class="btn btn-secondary"
+                  id="join-trip-btn"
+                  style="width: 100%; margin-top: 1rem"
+                >
+                  Join a Trip
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Available Trips / Posted Trips -->
+      <div class="column content">
+        <div id="available-trips" class="fade-container">
+          <div class="column-header">
+            <h2 class="column-title">Available Trips</h2>
+          </div>
+          <div class="column-content" id="available-trips-container">
+            <!-- Available trip cards will be dynamically inserted here -->
+          </div>
+        </div>
+
+        <div id="posted-trips" class="fade-container" style="display: none">
+          <div class="column-header">
+            <h2 class="column-title">Your Posted Trips</h2>
+          </div>
+          <div class="column-content">
+            <div class="tabs">
+              <div class="tab active" data-tab="upcoming">Upcoming</div>
+              <div class="tab" data-tab="completed">Completed</div>
+            </div>
+            <div id="posted-trips-container">
+              <!-- Posted trip cards will be dynamically inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/img/logo-full.png" alt="logo" class="footer-logo">
+                    <p class="footer-description">Your goto companion and travel gateway to extraordinary adventures around the world.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#discover">Discover</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 3146 Delhi, India</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@travelboom.com</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for travel updates and exclusive offers</p>
+                    <!-- <form class="newsletter-form"> -->
+                        <!-- <input type="email" placeholder="Your email" required> -->
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    <!-- </form> -->
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WeGo. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Scripts  -->
+    <script src="https://cdn.botpress.cloud/webchat/v2.1/inject.js"></script>
+    <script src="https://mediafiles.botpress.cloud/<your-bot-api-key>/webchat/v2.1/config.js"></script>
+
+    <!-- Custom Script -->
+     <div style="display: hidden;" id="userID"><%= user._id %></div>
+     <script src="/js/companion.js"></script>
+  </body>
+</html>

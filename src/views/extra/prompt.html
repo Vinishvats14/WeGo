@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Companion Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8721c2;
+            --primary-light: #ba8dd4;
+            --accent-light: #e4b5ff;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --background-light: #f8f8f8;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            overflow: hidden;
+        }
+
+        /* Column Styles */
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            height: calc(100vh - 140px);
+        }
+
+        .column-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .column-title {
+            font-size: 1.2rem;
+        }
+
+        .column-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            background-color: var(--background-light);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background-color: var(--primary-light);
+            color: var(--text-light);
+        }
+
+        /* Trip Card Styles */
+        .trip-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .trip-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .trip-destination {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .trip-dates {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .trip-companions {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .trip-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, var(--accent-light), var(--primary-light));
+            color: var(--text-dark);
+        }
+
+        .btn-small {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        /* Search and Filter */
+        .search-container {
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 2px rgba(135, 33, 194, 0.2);
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 2px rgba(135, 33, 194, 0.2);
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Flip Card Styles */
+        .flip-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flip-back {
+            transform: rotateY(180deg);
+        }
+
+        .flipper.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Interested Users Dropdown */
+        .interested-users {
+            display: none;
+            background-color: var(--background-light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .interested-user {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .interested-user:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            text-align: center;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .column {
+                height: auto;
+                max-height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">TripBuddy</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Trips</a>
+            <a href="#">Itineraries</a>
+            <a href="#">Messages</a>
+        </div>
+        <div class="user-profile">
+            <div class="user-avatar">JS</div>
+            <span>John Smith</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Column: Your Posted Trips -->
+        <div class="column" id="posted-trips-column">
+            <div class="column-header">
+                <h2 class="column-title">Your Posted Trips</h2>
+            </div>
+            <div class="column-content">
+                <div class="tabs">
+                    <div class="tab active" data-tab="upcoming">Upcoming</div>
+                    <div class="tab" data-tab="completed">Completed</div>
+                </div>
+
+                <div class="trips-container" id="posted-trips-container">
+                    <!-- Trip cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Available Trips / Post a Trip (Flip Card) -->
+        <div class="column" id="available-trips-column">
+            <div class="flip-container">
+                <div class="flipper" id="trip-flipper">
+                    <!-- Front Side: Available Trips -->
+                    <div class="flip-front">
+                        <div class="column-header">
+                            <h2 class="column-title">Available Trips</h2>
+                            <button class="btn btn-primary" id="post-trip-btn">Post a Trip</button>
+                        </div>
+                        <div class="column-content">
+                            <div class="search-container">
+                                <input type="text" class="search-input" placeholder="Search by destination..." id="search-input">
+                            </div>
+                            <div class="sort-options">
+                                <button class="btn btn-small" data-sort="date-new">Newest First</button>
+                                <button class="btn btn-small" data-sort="date-old">Oldest First</button>
+                                <button class="btn btn-small" data-sort="this-month">This Month</button>
+                            </div>
+                            <div class="trips-container" id="available-trips-container">
+                                <!-- Available trip cards will be dynamically inserted here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Back Side: Post a Trip Form -->
+                    <div class="flip-back">
+                        <div class="column-header">
+                            <h2 class="column-title">Post a Trip</h2>
+                            <button class="btn btn-secondary" id="back-to-available-btn">Back to Available Trips</button>
+                        </div>
+                        <div class="column-content">
+                            <form id="post-trip-form">
+                                <div class="form-group">
+                                    <label class="form-label" for="destination">Destination</label>
+                                    <input type="text" class="form-input" id="destination" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="start-date">Start Date</label>
+                                    <input type="date" class="form-input" id="start-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="end-date">End Date</label>
+                                    <input type="date" class="form-input" id="end-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="companions-needed">Number of Companions Needed</label>
+                                    <input type="number" class="form-input" id="companions-needed" min="1" max="10" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="description">Description (Optional)</label>
+                                    <textarea class="form-input" id="description" placeholder="Tell potential companions about this trip..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Find Companions</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TripBuddy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample data for demonstration
+        const samplePostedTrips = [
+            {
+                id: 'p1',
+                destination: 'Varanasi, UP',
+                startDate: '2025-03-15',
+                endDate: '2025-03-23',
+                companionsNeeded: 2,
+                description: 'Long-distance walking required.',
+                status: 'upcoming',
+                interestedUsers: [
+                    { userId: 'u1', name: 'Kunal Singh', comment: 'I love long trips.' },
+                    { userId: 'u2', name: 'Priya Sharma', comment: 'This sounds interesting!' }
+                ]
+            },
+            {
+                id: 'p2',
+                destination: 'Mumbai, Maharashtra',
+                startDate: '2025-04-10',
+                endDate: '2025-04-17',
+                companionsNeeded: 3,
+                description: 'City exploration and food tour.',
+                status: 'upcoming',
+                interestedUsers: [
+                    { userId: 'u3', name: 'Rahul Patel', comment: 'I know the best food spots!' }
+                ]
+            },
+            {
+                id: 'p3',
+                destination: 'Goa',
+                startDate: '2025-01-05',
+                endDate: '2025-01-12',
+                companionsNeeded: 4,
+                description: 'Beach vacation and water sports.',
+                status: 'completed',
+                interestedUsers: []
+            }
+        ];
+
+        const sampleAvailableTrips = [
+            {
+                id: 'a1',
+                destination: 'Shimla, Himachal Pradesh',
+                startDate: '2025-03-20',
+                endDate: '2025-03-27',
+                companionsNeeded: 3,
+                description: 'Mountain hiking and snow activities.',
+                postedBy: 'Amit Gupta',
+                postedDate: '2025-02-15'
+            },
+            {
+                id: 'a2',
+                destination: 'Jaipur, Rajasthan',
+                startDate: '2025-04-05',
+                endDate: '2025-04-12',
+                companionsNeeded: 2,
+                description: 'Cultural exploration and historical sites.',
+                postedBy: 'Neha Khanna',
+                postedDate: '2025-02-20'
+            },
+            {
+                id: 'a3',
+                destination: 'Kochi, Kerala',
+                startDate: '2025-03-10',
+                endDate: '2025-03-18',
+                companionsNeeded: 4,
+                description: 'Backwater tour and beach relaxation.',
+                postedBy: 'Vikram Reddy',
+                postedDate: '2025-02-10'
+            }
+        ];
+
+        // DOM Elements
+        const postedTripsContainer = document.getElementById('posted-trips-container');
+        const availableTripsContainer = document.getElementById('available-trips-container');
+        const tripFlipper = document.getElementById('trip-flipper');
+        const postTripBtn = document.getElementById('post-trip-btn');
+        const backToAvailableBtn = document.getElementById('back-to-available-btn');
+        const postTripForm = document.getElementById('post-trip-form');
+        const searchInput = document.getElementById('search-input');
+        const tabs = document.querySelectorAll('.tab');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPostedTrips('upcoming');
+            renderAvailableTrips();
+            setupEventListeners();
+        });
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Flip card functionality
+            postTripBtn.addEventListener('click', () => {
+                tripFlipper.classList.add('flipped');
+            });
+
+            backToAvailableBtn.addEventListener('click', () => {
+                tripFlipper.classList.remove('flipped');
+            });
+
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const tabName = tab.getAttribute('data-tab');
+                    renderPostedTrips(tabName);
+                });
+            });
+
+            // Post trip form submission
+            postTripForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newTrip = {
+                    id: 'p' + (samplePostedTrips.length + 1),
+                    destination: document.getElementById('destination').value,
+                    startDate: document.getElementById('start-date').value,
+                    endDate: document.getElementById('end-date').value,
+                    companionsNeeded: parseInt(document.getElementById('companions-needed').value),
+                    description: document.getElementById('description').value,
+                    status: 'upcoming',
+                    interestedUsers: []
+                };
+                
+                samplePostedTrips.unshift(newTrip);
+                renderPostedTrips('upcoming');
+                postTripForm.reset();
+                tripFlipper.classList.remove('flipped');
+                
+                // Show a notification (can be enhanced in a real app)
+                alert('Trip posted successfully!');
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', () => {
+                renderAvailableTrips();
+            });
+
+            // Sort buttons
+            document.querySelectorAll('.sort-options .btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const sortType = btn.getAttribute('data-sort');
+                    sortAvailableTrips(sortType);
+                });
+            });
+        }
+
+        // Render Posted Trips
+        function renderPostedTrips(status) {
+            const filteredTrips = samplePostedTrips.filter(trip => trip.status === status);
+            postedTripsContainer.innerHTML = '';
+
+            if (filteredTrips.length === 0) {
+                postedTripsContainer.innerHTML = `<p>No ${status} trips found.</p>`;
+                return;
+            }
+
+            filteredTrips.forEach(trip => {
+                const tripCard = document.createElement('div');
+                tripCard.className = 'trip-card';
+                
+                // Format dates
+                const startDate = new Date(trip.startDate).toLocaleDateString();
+                const endDate = new Date(trip.endDate).toLocaleDateString();
+                
+                tripCard.innerHTML = `
+                    <div class="trip-destination">${trip.destination}</div>
+                    <div class="trip-dates">${startDate} - ${endDate}</div>
+                    <div class="trip-companions">Companions needed: ${trip.companionsNeeded}</div>
+                    <p>${trip.description}</p>
+                    <div class="trip-actions">
+                        ${status === 'upcoming' ? 
+                            `<button class="btn btn-small btn-secondary mark-completed" data-trip-id="${trip.id}">Mark as Completed</button>` : 
+                            ''}
+                        <button class="btn btn-small btn-secondary delete-trip" data-trip-id="${trip.id}">Delete</button>
+                        ${trip.interestedUsers.length > 0 ? 
+                            `<button class="btn btn-small btn-primary view-interested" data-trip-id="${trip.id}">
+                                View Interested (${trip.interestedUsers.length})
+                            </button>` : 
+                            '<span>No interested companions yet</span>'}
+                    </div>
+                    <div class="interested-users" id="interested-${trip.id}">
+                        ${trip.interestedUsers.map(user => `
+                            <div class="interested-user">
+                                <div>
+                                    <strong>${user.name}</strong>
+                                    <p>${user.comment}</p>
+                                </div>
+                                <button class="btn btn-small btn-primary contact-user" data-user-id="${user.userId}">
+                                    Contact
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                postedTripsContainer.appendChild(tripCard);
+            });
+
+            // Add event listeners to the newly created buttons
+            document.querySelectorAll('.mark-completed').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tripId = btn.getAttribute('data-trip-id');
+                    const trip = samplePostedTrips.find(t => t.id === tripId);
+                    if (trip) {
+                        trip.status = 'completed';
+                        renderPostedTrips('upcoming');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.delete-trip').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tripId = btn.getAttribute('data-trip-id');
+                    const index = samplePostedTrips.findIndex(t => t.id === tripId);
+                    if (index !== -1) {
+                        if (confirm('Are you sure you want to delete this trip?')) {
+                            samplePostedTrips.splice(index, 1);
+                            renderPostedTrips(status);
+                        }
+                    }
+                });
+            });
+
+            document.querySelectorAll('.view-interested').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tripId = btn.getAttribute('data-trip-id');
+                    const interestedUsers = document.getElementById(`interested-${tripId}`);
+                    if (interestedUsers.style.display === 'block') {
+                        interestedUsers.style.display = 'none';
+                    } else {
+                        interestedUsers.style.display = 'block';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.contact-user').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const userId = btn.getAttribute('data-user-id');
+                    alert(`Contacting user ${userId}. This would open a messaging interface in a real app.`);
+                });
+            });
+        }
+
+        // Render Available Trips
+        function renderAvailableTrips() {
+            const searchTerm = searchInput.value.toLowerCase();
+            let filteredTrips = sampleAvailableTrips;
+            
+            if (searchTerm) {
+                filteredTrips = sampleAvailableTrips.filter(trip => 
+                    trip.destination.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            availableTripsContainer.innerHTML = '';
+
+            if (filteredTrips.length === 0) {
+                availableTripsContainer.innerHTML = `<p>No trips found matching "${searchTerm}".</p>`;
+                return;
+            }
+
+            filteredTrips.forEach(trip => {
+                const tripCard = document.createElement('div');
+                tripCard.className = 'trip-card';
+                
+                // Format dates
+                const startDate = new Date(trip.startDate).toLocaleDateString();
+                const endDate = new Date(trip.endDate).toLocaleDateString();
+                const postedDate = new Date(trip.postedDate).toLocaleDateString();
+                
+                tripCard.innerHTML = `
+                    <div class="trip-destination">${trip.destination}</div>
+                    <div class="trip-dates">${startDate} - ${endDate}</div>
+                    <div class="trip-companions">Companions needed: ${trip.companionsNeeded}</div>
+                    <p>${trip.description}</p>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">
+                        Posted by ${trip.postedBy} on ${postedDate}
+                    </div>
+                    <div class="trip-actions" style="margin-top: 1rem;">
+                        <button class="btn btn-primary interested-btn" data-trip-id="${trip.id}">
+                            I am Interested
+                        </button>
+                        <button class="btn btn-secondary add-to-planner-btn" data-trip-id="${trip.id}">
+                            Add to Planner
+                        </button>
+                    </div>
+                `;
+                
+                availableTripsContainer.appendChild(tripCard);
+            });
+
+            // Add event listeners to the newly created buttons
+            document.querySelectorAll('.interested-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tripId = btn.getAttribute('data-trip-id');
+                    alert(`You've expressed interest in this trip! In a real app, you would be prompted to add a comment.`);
+                    btn.textContent = 'Interested ✓';
+                    btn.disabled = true;
+                });
+            });
+
+            document.querySelectorAll('.add-to-planner-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tripId = btn.getAttribute('data-trip-id');
+                    alert(`Trip added to your planner! You can view it later.`);
+                    btn.textContent = 'Added to Planner ✓';
+                    btn.disabled = true;
+                });
+            });
+        }
+
+        // Sort Available Trips
+        function sortAvailableTrips(sortType) {
+            let sortedTrips = [...sampleAvailableTrips];
+            
+            switch(sortType) {
+                case 'date-new':
+                    sortedTrips.sort((a, b) => new Date(b.postedDate) - new Date(a.postedDate));
+                    break;
+                case 'date-old':
+                    sortedTrips.sort((a, b) => new Date(a.postedDate) - new Date(b.postedDate));
+                    break;
+                case 'this-month':
+                    const today = new Date();
+                    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+                    sortedTrips = sortedTrips.filter(trip => {
+                        const tripStart = new Date(trip.startDate);
+                        return tripStart >= today && tripStart < nextMonth;
+                    });
+                    break;
+            }
+            
+            sampleAvailableTrips.length = 0;
+            sampleAvailableTrips.push(...sortedTrips);
+            renderAvailableTrips();
+        }
+    </script>
+</body>
+</html>

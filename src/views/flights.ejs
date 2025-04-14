@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flights | Find Your Perfect Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Header and Navigation */
+.header {
+  background-color: #8721c2;
+  padding: 1rem 3rem;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar a {
+  height: 50px;
+  overflow: hidden;
+} 
+a.avatar {
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 1px 5px;
+  transition: all 0.3s ease-in-out;
+  img.avatar-img {
+    object-fit: cover;
+    height: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.logo img {
+  height: 35px;
+}
+
+.nav-list {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.nav-list a {
+  color: #ffffff;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.nav-list a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        /* Flight Search Box Section */
+        .flight-search-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .flight-search-box h2 {
+            color: #8721c2;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #8721c2;
+            box-shadow: 0 0 0 2px rgba(135, 33, 194, 0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(45deg, #8721c2, #ba8dd4);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(135, 33, 194, 0.3);
+        }
+
+        /* Flight Results Section */
+        .flights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .flight-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .flight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .airline-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .airline-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: #8721c2;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .airline-name {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .flight-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .time-info {
+            text-align: center;
+        }
+
+        .departure-time, .arrival-time {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 0.2rem;
+        }
+
+        .flight-path {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .duration {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .path-line {
+            position: relative;
+            width: 100px;
+            height: 2px;
+            background-color: #ddd;
+        }
+
+        .path-line::before,
+        .path-line::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #8721c2;
+        }
+
+        .path-line::before {
+            left: 0;
+            top: -2px;
+        }
+
+        .path-line::after {
+            right: 0;
+            top: -2px;
+        }
+
+        .stops {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        .flight-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #8721c2;
+        }
+
+        .price-label {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .book-btn {
+            background: linear-gradient(45deg, #e4b5ff, #ba8dd4);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(135, 33, 194, 0.3);
+        }
+
+        .book-btn:active {
+            transform: translateY(1px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #8721c2;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #e74c3c;
+            background-color: #fdecea;
+            border-radius: 10px;
+        }
+
+        /* Footer */
+.footer {
+  background-color: #8721c2;
+  color: #ffffff;
+  padding-top: 2rem;
+  border-radius: 30px 30px 0 0;
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 2rem;
+}
+
+.footer-logo {
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  max-width: 100%;
+  display: block;
+  border-radius: 8px;
+}
+
+.footer-description {
+  font-size: 0.875rem;
+}
+
+.footer h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.footer-links ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s ease-in-out;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+.footer-contact p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.newsletter-form input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.875rem;
+}
+
+.footer-bottom {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s ease-in-out;
+}
+
+.social-link:hover {
+  color: #ffffff;
+}
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                text-align: center;
+                margin-top: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .flights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-form {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .form-group {
+                width: 100%;
+            }
+
+            .flight-details {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .flight-path {
+                order: 3;
+            }
+
+            .path-line {
+                width: 2px;
+                height: 50px;
+            }
+
+            .path-line::before {
+                left: -2px;
+                top: 0;
+            }
+
+            .path-line::after {
+                left: -2px;
+                bottom: 0;
+                top: auto;
+            }
+
+            .footer-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for Loading */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/img/logo-full.png" alt="logo">
+            </div>
+            <ul class="nav-list">
+                <li><a href="/#home">Home</a></li>
+                <li><a href="/#destination">Discover</a></li>
+                <li><a href="/#cta">Services</a></li>
+                <li><a href="/#why-us">Why WeGo</a></li>
+                <li><a href="/#footer">Contact</a></li>
+            </ul>
+            <% if (user) { %>
+                <a onclick="window.location.href=`/profile/<%= user._id %>`" class="avatar"><img class="avatar-img" src="<%= user.profileImage %>" alt="avatar"></a>
+                <% } else { %>
+                  <a onclick="window.location.href = `/auth`" class="btn">Sign up</a>
+              <% } %>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Flight Search Box Section -->
+        <section class="flight-search-box">
+            <h2>Find Your Flight</h2>
+            <form id="flightSearchForm" class="search-form">
+                <div class="form-group">
+                    <label for="origin">From:</label>
+                    <select id="origin" name="origin" required>
+                        <option value="Mumbai" selected>Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Ahmedabad">Ahmedabad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="destination">To:</label>
+                    <select id="destination" name="destination" required>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi" selected>Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Ahmedabad">Ahmedabad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required value="2025-03-05">
+                </div>
+                <div class="form-group">
+                    <label for="passengers">Passengers:</label>
+                    <select id="passengers" name="passengers">
+                        <option value="1">1 Passenger</option>
+                        <option value="2" selected>2 Passengers</option>
+                        <option value="3">3 Passengers</option>
+                        <option value="4">4 Passengers</option>
+                        <option value="5">5+ Passengers</option>
+                    </select>
+                </div>
+                <button type="submit" class="search-btn">Search Flights</button>
+            </form>
+        </section>
+
+        <!-- Flight Results Section -->
+        <section class="flights-results">
+            <div class="flights-grid" id="flightsGrid">
+                <!-- Flight cards will be dynamically generated here -->
+                <div class="loading">Loading available flights...</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/img/logo-full.png" alt="logo" class="footer-logo">
+                    <p class="footer-description">Your goto companion and travel gateway to extraordinary adventures around the world.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#discover">Discover</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 3146 Delhi, India</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@travelboom.com</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for travel updates and exclusive offers</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WeGo. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+       
+
+        // Sample Flight Data
+        const flightData = [
+            {
+                "airline": "Airways XYZ",
+                "airlineCode": "AXY",
+                "departure": "09:00 AM",
+                "arrival": "12:00 PM",
+                "duration": "3h 00m",
+                "stops": "Non-stop",
+                "price": "₹4,500",
+                "bookingLink": "#"
+            },
+            {
+                "airline": "JetFly Airlines",
+                "airlineCode": "JFA",
+                "departure": "10:30 AM",
+                "arrival": "02:15 PM",
+                "duration": "3h 45m",
+                "stops": "1 Stop (DEL)",
+                "price": "₹3,850",
+                "bookingLink": "#"
+            },
+            {
+                "airline": "Sky Connect",
+                "airlineCode": "SKC",
+                "departure": "01:15 PM",
+                "arrival": "04:00 PM",
+                "duration": "2h 45m",
+                "stops": "Non-stop",
+                "price": "₹5,100",
+                "bookingLink": "#"
+            },
+            {
+                "airline": "Eagle Air",
+                "airlineCode": "EAG",
+                "departure": "08:45 AM",
+                "arrival": "11:30 AM",
+                "duration": "2h 45m",
+                "stops": "Non-stop",
+                "price": "₹4,750",
+                "bookingLink": "#"
+            },
+            {
+                "airline": "Global Wings",
+                "airlineCode": "GLW",
+                "departure": "03:30 PM",
+                "arrival": "07:15 PM",
+                "duration": "3h 45m",
+                "stops": "1 Stop (HYD)",
+                "price": "₹4,200",
+                "bookingLink": "#"
+            },
+            {
+                "airline": "Fusion Airlines",
+                "airlineCode": "FUS",
+                "departure": "06:00 PM",
+                "arrival": "08:45 PM",
+                "duration": "2h 45m",
+                "stops": "Non-stop",
+                "price": "₹5,350",
+                "bookingLink": "#"
+            }
+        ];
+
+        // Create Flight Card Element
+        function createFlightCard(flight) {
+            const card = document.createElement('div');
+            card.className = 'flight-card';
+            
+            card.innerHTML = `
+                <div class="airline-info">
+                    <div class="airline-icon">${flight.airlineCode}</div>
+                    <div class="airline-name">${flight.airline}</div>
+                </div>
+                <div class="flight-details">
+                    <div class="time-info">
+                        <div class="departure-time">${flight.departure}</div>
+                        <div class="time-label">Departure</div>
+                    </div>
+                    <div class="flight-path">
+                        <div class="duration">${flight.duration}</div>
+                        <div class="path-line"></div>
+                        <div class="stops">${flight.stops}</div>
+                    </div>
+                    <div class="time-info">
+                        <div class="arrival-time">${flight.arrival}</div>
+                        <div class="time-label">Arrival</div>
+                    </div>
+                </div>
+                <div class="flight-footer">
+                    <div class="price-info">
+                        <div class="price">${flight.price}</div>
+                        <div class="price-label">per person</div>
+                    </div>
+                    <button class="book-btn" data-booking-link="${flight.bookingLink}">Book Now</button>
+                </div>
+            `;
+            
+            // Add event listener to booking button
+            card.querySelector('.book-btn').addEventListener('click', function() {
+                const bookingLink = this.getAttribute('data-booking-link');
+                alert('Booking feature coming soon!');
+            });
+            
+            return card;
+        }
+
+        // Load Flights
+        function loadFlights() {
+            const flightsGrid = document.getElementById('flightsGrid');
+            const origin = document.getElementById('origin').value;
+            const destination = document.getElementById('destination').value;
+            
+            // Display loading message
+            flightsGrid.innerHTML = '<div class="loading">Searching flights from ' + origin + ' to ' + destination + '...</div>';
+            
+            // Simulate loading delay (would be real API fetch in production)
+            setTimeout(() => {
+                // Clear loading message
+                flightsGrid.innerHTML = '';
+                
+                if (origin === destination) {
+                    // Handle invalid search
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'error-message';
+                    errorMessage.textContent = 'Origin and destination cannot be the same. Please try a different search.';
+                    flightsGrid.appendChild(errorMessage);
+                } else {
+                    // Create and append flight cards
+                    flightData.forEach(flight => {
+                        const card = createFlightCard(flight);
+                        flightsGrid.appendChild(card);
+                    });
+                    
+                    // Add fade-in animation to cards
+                    const cards = document.querySelectorAll('.flight-card');
+                    cards.forEach((card, index) => {
+                        card.style.opacity = '0';
+                        card.style.transition = 'opacity 0.5s ease';
+                        
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                        }, 100 * index);
+                    });
+                }
+            }, 1500); // Simulate network delay
+        }
+
+        // Handle form submission
+        document.getElementById('flightSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent actual form submission
+            loadFlights();
+        });
+
+        // Initialize Page - Load flights with default values
+        function init() {
+            loadFlights();
+        }
+
+        // Run initialization when DOM is ready
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

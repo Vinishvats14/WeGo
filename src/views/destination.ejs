@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination Information - New Delhi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/destination.css">
+    <style>
+        /* Skeleton loading styles */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .skeleton-text {
+            height: 14px;
+            margin-bottom: 8px;
+            width: 100%;
+        }
+        
+        .skeleton-text.title {
+            height: 24px;
+            width: 70%;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-text.subtitle {
+            height: 18px;
+            width: 50%;
+        }
+        
+        .skeleton-image {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-card {
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .skeleton-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .skeleton-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-item-text {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div class="loading" id="loadingIndicator" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/img/logo-full.png" alt="logo">
+            </div>
+            <ul class="nav-list">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destination">Discover</a></li>
+                <li><a href="#cta">Services</a></li>
+                <li><a href="#why-us">Why WeGo</a></li>
+                <li><a href="#footer">Contact</a></li>
+            </ul>
+            <% if (user) { %>
+              <div onclick="window.location.href=`/profile/<%= user._id %>`" class="user-profile">
+                <img class="user-avatar" src="<%= user.profileImage %>" alt="avatar">
+                <span><%= user.name %></span>
+              </div>
+            <% } else { %>
+                <a onclick="window.location.href = `/auth`" class="btn">Sign up</a>
+            <% } %>
+        </nav>
+    </header>
+    <!-- Search Bar Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search another destination..." required>
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="destination-container">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Description Section -->
+                <div class="section description">
+                    <h2 class="section-title" id="destinationTitle">About <%= place %></h2>
+                    <div id="destinationDescription">
+                        <!-- Skeleton for Description -->
+                        <div class="skeleton-placeholder">
+                            <div class="skeleton skeleton-text"></div>
+                            <div class="skeleton skeleton-text"></div>
+                            <div class="skeleton skeleton-text"></div>
+                            <div class="skeleton skeleton-text"></div>
+                            <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attractions Section -->
+                <div class="section attractions">
+                    <h2 class="section-title">Top Attractions</h2>
+                    <ul class="attractions-list" id="attractionsList">
+                        <!-- Skeleton for Attractions -->
+                        <div class="skeleton-placeholder">
+                            <div class="skeleton-item">
+                                <div class="skeleton skeleton-circle"></div>
+                                <div class="skeleton-item-text">
+                                    <div class="skeleton skeleton-text"></div>
+                                </div>
+                            </div>
+                            <div class="skeleton-item">
+                                <div class="skeleton skeleton-circle"></div>
+                                <div class="skeleton-item-text">
+                                    <div class="skeleton skeleton-text"></div>
+                                </div>
+                            </div>
+                            <div class="skeleton-item">
+                                <div class="skeleton skeleton-circle"></div>
+                                <div class="skeleton-item-text">
+                                    <div class="skeleton skeleton-text"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+
+                <!-- Reviews Section -->
+                <div class="section reviews">
+                    <h2 class="section-title">Traveler Reviews</h2>
+                    <div id="reviewsContainer">
+                        <!-- Skeleton for Reviews -->
+                        <div class="skeleton-placeholder">
+                            <div class="skeleton-card">
+                                <div class="skeleton skeleton-text subtitle"></div>
+                                <div class="skeleton skeleton-text" style="width: 40%;"></div>
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text" style="width: 90%;"></div>
+                            </div>
+                            <div class="skeleton-card">
+                                <div class="skeleton skeleton-text subtitle"></div>
+                                <div class="skeleton skeleton-text" style="width: 40%;"></div>
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Images Carousel -->
+                <div class="section">
+                    <div class="carousel" id="imageCarousel">
+                        <div class="carousel-inner" id="carouselInner">
+                            <!-- Skeleton for Carousel -->
+                            <div class="skeleton-placeholder">
+                                <div class="skeleton skeleton-image"></div>
+                            </div>
+                        </div>
+                        <button class="carousel-control carousel-prev" id="carouselPrev">&lt;</button>
+                        <button class="carousel-control carousel-next" id="carouselNext">&gt;</button>
+                        <div class="carousel-indicators" id="carouselIndicators"></div>
+                    </div>
+                </div>
+
+                <!-- Weather Section -->
+                <div class="section weather">
+                    <h2 class="section-title">Weather Update</h2>
+                    <div class="weather-box" id="weatherInfo">
+                        <!-- Skeleton for Weather -->
+                        <div class="skeleton-placeholder">
+                            <div class="skeleton skeleton-text title" style="width: 30%;"></div>
+                            <div class="skeleton skeleton-text"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Section (conditional) -->
+                <div class="section events" id="eventsSection">
+                    <h2 class="section-title">Local Events</h2>
+                    <ul class="events-list" id="eventsList">
+                        <!-- Skeleton for Events -->
+                        <div class="skeleton-placeholder">
+                            <div class="skeleton-card">
+                                <div class="skeleton skeleton-text subtitle"></div>
+                                <div class="skeleton skeleton-text" style="width: 30%;"></div>
+                                <div class="skeleton skeleton-text"></div>
+                                <div class="skeleton skeleton-text" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+
+                <!-- Emergency Contacts Section -->
+                <div class="section contacts">
+                    <h2 class="section-title">Emergency Contacts</h2>
+                    <div id="emergencyContacts">
+                        <!-- Skeleton for Emergency Contacts -->
+                        <div class="skeleton-placeholder">
+                            <div class="skeleton skeleton-text"></div>
+                            <div class="skeleton skeleton-text" style="width: 60%;"></div>
+                            <div class="skeleton skeleton-text"></div>
+                            <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/img/logo-full.png" alt="logo" class="footer-logo">
+                    <p class="footer-description">Your goto companion and travel gateway to extraordinary adventures around the world.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#discover">Discover</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 3146 Delhi, India</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@travelboom.com</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for travel updates and exclusive offers</p>
+                    <button type="submit" class="btn btn-secondary">Subscribe</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WeGo. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Chatbot Scripts  -->
+    <script src="https://cdn.botpress.cloud/webchat/v2.1/inject.js"></script>
+    <script src="https://mediafiles.botpress.cloud/<your-bot-api-key>/webchat/v2.1/config.js"></script>
+
+    <div style="display: none;" id="placeName"><%= place %></div>
+    <script>
+        // DOM Elements
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        const destinationTitle = document.getElementById("destinationTitle");
+        const destinationDescription = document.getElementById("destinationDescription");
+        const attractionsList = document.getElementById("attractionsList");
+        const reviewsContainer = document.getElementById("reviewsContainer");
+        const carouselInner = document.getElementById("carouselInner");
+        const carouselIndicators = document.getElementById("carouselIndicators");
+        const weatherInfo = document.getElementById("weatherInfo");
+        const emergencyContacts = document.getElementById("emergencyContacts");
+        const eventsSection = document.getElementById("eventsSection");
+        const eventsList = document.getElementById("eventsList");
+        const searchForm = document.getElementById("searchForm");
+        const searchInput = document.getElementById("searchInput");
+
+        // Carousel Controls
+        const carouselPrev = document.getElementById("carouselPrev");
+        const carouselNext = document.getElementById("carouselNext");
+
+        let currentSlide = 0;
+        let totalSlides = 0;
+
+        // Intersection Observer for Fade-in Animation
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("fade-in");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Initialize fade-in animations
+        function initAnimations() {
+            const sections = document.querySelectorAll(".section");
+            sections.forEach((section) => {
+                observer.observe(section);
+            });
+        }
+
+        // Update carousel display
+        function updateCarousel() {
+            carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            // Update indicators
+            const indicators = document.querySelectorAll(".carousel-indicator");
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add("active");
+                } else {
+                    indicator.classList.remove("active");
+                }
+            });
+        }
+
+        // Carousel navigation
+        carouselPrev.addEventListener("click", () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        });
+
+        carouselNext.addEventListener("click", () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        });
+
+        // Render star rating
+        function renderStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+            let stars = "";
+            for (let i = 0; i < fullStars; i++) {
+                stars += "★";
+            }
+            if (halfStar) {
+                stars += "½";
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                stars += "☆";
+            }
+
+            return stars;
+        }
+
+        // Update UI with destination data
+        function updateUI(data) {
+            // Remove all skeleton placeholders
+            document.querySelectorAll('.skeleton-placeholder').forEach(el => el.remove());
+
+            // Clear current data
+            destinationDescription.innerHTML = "";
+            attractionsList.innerHTML = "";
+            reviewsContainer.innerHTML = "";
+            carouselInner.innerHTML = "";
+            carouselIndicators.innerHTML = "";
+            weatherInfo.innerHTML = "";
+            emergencyContacts.innerHTML = "";
+            eventsList.innerHTML = "";
+
+            // Update destination name
+            const destinationName = searchInput.value
+                ? searchInput.value.charAt(0).toUpperCase() + searchInput.value.slice(1)
+                : "the place";
+            destinationTitle.textContent = `About ${destinationName}`;
+
+            // Update description
+            const descriptionP = document.createElement("p");
+            descriptionP.textContent = data.description;
+            destinationDescription.appendChild(descriptionP);
+
+            // Update attractions
+            data.attractions.forEach((attraction) => {
+                const item = document.createElement("li");
+                item.className = "attraction-item";
+
+                const iconSpan = document.createElement("span");
+                iconSpan.className = "attraction-icon";
+                iconSpan.textContent = "✦";
+
+                const textSpan = document.createElement("span");
+                textSpan.textContent = attraction;
+
+                item.appendChild(iconSpan);
+                item.appendChild(textSpan);
+                attractionsList.appendChild(item);
+            });
+
+            // Update reviews
+            data.reviews.forEach((review) => {
+                const reviewCard = document.createElement("div");
+                reviewCard.className = "review-card";
+
+                const reviewHeader = document.createElement("div");
+                reviewHeader.className = "review-header";
+
+                const reviewUser = document.createElement("span");
+                reviewUser.className = "review-user";
+                reviewUser.textContent = review.user;
+
+                const reviewRating = document.createElement("span");
+                reviewRating.className = "review-rating";
+                reviewRating.textContent = renderStars(review.rating);
+
+                reviewHeader.appendChild(reviewUser);
+                reviewHeader.appendChild(reviewRating);
+
+                const reviewComment = document.createElement("p");
+                reviewComment.className = "review-comment";
+                reviewComment.textContent = review.comment;
+
+                reviewCard.appendChild(reviewHeader);
+                reviewCard.appendChild(reviewComment);
+                reviewsContainer.appendChild(reviewCard);
+            });
+
+            // Update carousel
+            totalSlides = data.images.length;
+            currentSlide = 0;
+
+            data.images.forEach((image, index) => {
+                // Create carousel item
+                const item = document.createElement("div");
+                item.className = "carousel-item";
+
+                const img = document.createElement("img");
+                img.src = image;
+                img.alt = `Destination image ${index + 1}`;
+
+                item.appendChild(img);
+                carouselInner.appendChild(item);
+
+                // Create indicator
+                const indicator = document.createElement("div");
+                indicator.className = `carousel-indicator ${index === 0 ? "active" : ""}`;
+                indicator.dataset.index = index;
+                indicator.addEventListener("click", () => {
+                    currentSlide = index;
+                    updateCarousel();
+                });
+
+                carouselIndicators.appendChild(indicator);
+            });
+
+            // Update weather
+            const weatherTemp = document.createElement("div");
+            weatherTemp.className = "weather-temp";
+            weatherTemp.textContent = data?.weather?.temperature;
+
+            const weatherCondition = document.createElement("div");
+            weatherCondition.className = "weather-condition";
+            weatherCondition.textContent = data?.weather?.condition;
+
+            weatherInfo.appendChild(weatherTemp);
+            weatherInfo.appendChild(weatherCondition);
+
+            // Update emergency contacts
+            for (const [label, value] of Object.entries(data.emergency_contacts)) {
+                const contactItem = document.createElement("div");
+                contactItem.className = "contact-item";
+
+                const contactLabel = document.createElement("span");
+                contactLabel.className = "contact-label";
+                contactLabel.textContent = label.charAt(0).toUpperCase() + label.slice(1) + ":";
+
+                const contactValue = document.createElement("span");
+                contactValue.className = "contact-value";
+                contactValue.textContent = value;
+
+                contactItem.appendChild(contactLabel);
+                contactItem.appendChild(document.createElement("br"));
+                contactItem.appendChild(contactValue);
+
+                emergencyContacts.appendChild(contactItem);
+            }
+
+            // Update events (if available)
+            if (data.events && data.events.length > 0) {
+                eventsSection.style.display = "block";
+
+                data.events.forEach((event) => {
+                    const eventItem = document.createElement("li");
+                    eventItem.className = "event-item";
+
+                    const eventName = document.createElement("div");
+                    eventName.className = "event-name";
+                    eventName.textContent = event.name;
+
+                    const eventDate = document.createElement("div");
+                    eventDate.className = "event-date";
+                    eventDate.textContent = event.date;
+
+                    const eventDescription = document.createElement("div");
+                    eventDescription.className = "event-description";
+                    eventDescription.textContent = event.description;
+
+                    eventItem.appendChild(eventName);
+                    eventItem.appendChild(eventDate);
+                    eventItem.appendChild(eventDescription);
+
+                    eventsList.appendChild(eventItem);
+                });
+            } else {
+                eventsSection.style.display = "none";
+            }
+
+            // Initialize carousel
+            updateCarousel();
+
+            // Initialize animations
+            initAnimations();
+        }
+
+         // Function to fetch destination data from the API
+         const place = document.getElementById("placeName").textContent;
+    const fetchDestinationData = async (place) => {
+      try {
+        const response = await fetch(`/api/destination?place=${encodeURIComponent(place)}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const { data } = await response.json();
+        return data;
+      } catch (error) {
+        console.error("Error fetching destination data:", error);
+        return null;
+      }
+    };
+
+        // Handle search form submission
+        searchForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const searchTerm = searchInput.value.trim().toLowerCase();
+
+            // Show loading indicator
+            loadingIndicator.style.display = "flex";
+
+            // Hide skeleton placeholders since we're using the loading spinner
+            document.querySelectorAll('.skeleton-placeholder').forEach(placeholder => {
+                placeholder.style.display = 'none';
+            });
+
+            // Simulate API call with timeout
+            setTimeout(async () => {
+                let data;
+
+                try {
+                    data = await fetchDestinationData(searchTerm);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+
+                // Update UI with the data
+                updateUI(data);
+
+                // Hide loading indicator
+                loadingIndicator.style.display = "none";
+            }, 1000); // Simulated API delay
+        });
+
+        // Initial data load
+        window.addEventListener("DOMContentLoaded", async () => {
+            // Show loading indicator
+            loadingIndicator.style.display = "flex";
+
+            // Get the place name passed from the server-side (EJS variable)
+    const place = "<%= place %>";
+
+// Function to fetch destination data from the API
+const fetchDestinationData = async (place) => {
+  try {
+    const response = await fetch(`/api/destination?place=${encodeURIComponent(place)}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const { data } = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching destination data:", error);
+    return null;
+  }
+};
+if (place) {
+      const data = await fetchDestinationData(place);
+      updateUI(data);
+
+      // Hide loading indicator
+      loadingIndicator.style.display = "none";
+    }
+        });
+  
+
+        // Auto-rotation for carousel
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeGo - Authentication</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700|Poppins:400,500,600&display=swap");
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: "Poppins", sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #icon {
+            height: 100px;
+            cursor: pointer;
+            width: fit-content;
+            img {
+                  height: 100%;
+            }
+        }
+
+        h1 {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 20px 0 30px;
+        }
+
+        span {
+            font-size: 12px;
+        }
+
+        a {
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+        }
+
+        button, input[type="submit"] {
+            border-radius: 30px;
+            border: 1px solid #ff6f61;
+            background-color: #ff6f61;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            width: fit-content;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+        button:hover, input[type="submit"]:hover {
+            background-color: #ffffff;
+            color: #ff6f61;
+        }
+
+        button:active, input[type="submit"]:active {
+            transform: scale(0.95);
+        }
+
+        button:focus, input[type="submit"]:focus {
+            outline: none;
+        }
+
+        button.ghost {
+            background-color: transparent;
+            cursor: pointer;
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        form {
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 50px;
+            height: 100%;
+            text-align: center;
+
+            div.avatar-container {
+                height: 80px;
+                width: 80px;
+                aspect-ratio: 1;
+                border-radius: 50%;
+                box-shadow: 0 0px 2px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+                margin-bottom: 20px;
+                img.avatar {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: all 0.2s ease-in-out;
+                    &:hover {
+                        opacity: 0.5;
+                    }
+                }
+            }
+        }
+
+        input {
+            background-color: #eee;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+            outline-color: #5f317c;
+        }
+        input:user-valid {
+            outline-color: rgb(0, 255, 0);
+        }
+        input:user-invalid {
+            outline-color: rgb(255, 0, 0);
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 430px;
+            margin: 20px 0;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+        }
+
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
+
+        @keyframes show {
+            0%,
+            49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .overlay {
+            background-image: url("/img/authBg.jpg");
+            background: linear-gradient(160deg, rgba(135, 31, 196, 0.2), rgba(0, 0, 0, 0.722)), url(/img/authBg.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            /* background-position: 0 0; */
+            color: #ffffff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+
+        .social-container {
+            margin: 20px 0;
+        }
+
+        .social-container a {
+            border: 1px solid #dddddd;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 40px;
+            width: 40px;
+            transition: background 0.3s;
+        }
+
+        .social-container a:hover {
+            background: #ff6f61;
+            color: #ffffff;
+        }
+
+        footer {
+            p {
+                  margin: 0;
+                  text-align: center;
+                  a {
+                        color: #8721c2;
+                        text-decoration: none;
+                        &:hover {
+                              color: #000;
+                        }
+                  }
+            }
+        }
+        
+
+    </style>
+</head>
+
+<body>
+     <div id="icon">
+      <a onclick="window.history.back()"><img src="/img/logo-vertical.png" alt="logo"></a>
+     </div>
+    
+
+    <!-- Sign In/Sign Up Form -->
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form id="sign-up" autocomplete="off">
+                <h1>Sign up</h1>
+                <!-- <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/" class="social"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/kunal-singh-490b43214/" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span> -->
+                <div class="avatar-container">
+                    <img id="avatarImage" class="avatar" src="/img/default-avatar.png" alt="User Avatar" />
+                    <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display: none;" />
+                </div>
+                <input type="text" name="name" placeholder="Name" suggestion="off" required/>
+                <input type="email" name="email" placeholder="Email" suggestion="off" required/>
+                <input type="password" name="password" placeholder="Password" suggestion="off" minlength="8" required/>
+                <input id="signup" type="submit" value="Sign Up">
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form id="sign-in" autocomplete="off">
+                 <h1>Sign in</h1>
+                <!--<div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/" class="social"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/kunal-singh-490b43214/" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span> -->
+                <input type="email" name="email" placeholder="Email" required/>
+                <input type="password" name="password" placeholder="Password" minlength="8" required/>
+                <a href="#">Forgot your password?</a>
+                <input id="signin" type="submit" value="Sign In">
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Already on WeGo?</h1>
+                    <p>To keep connected with us please login here with your personal info.</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>New to WeGo ?</h1>
+                    <p>Sign Up first and dive deep into world of tours with us!</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Travel Boom. All Rights Reserved.</p>
+        <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Use</a></p>
+    </footer>
+
+    <script>
+
+
+        // Avatar image upload and Change
+        document.getElementById("avatarImage").addEventListener("click", function() {
+            document.getElementById("avatarInput").click(); // Trigger file input click
+        });
+
+        document.getElementById("avatarInput").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                console.log("File selected:", file);
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("avatarImage").src = e.target.result; // Set the new image
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+        // Login functionality
+        document.getElementById('sign-in').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = {
+                email: formData.get('email'),
+                password: formData.get('password')
+            }
+
+            try {
+                const response = await fetch('/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+            
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    alert(errorData.errorMessage || 'An unexpected error occurred');
+                } else {
+                    const responseData = await response.json();
+                    // alert('User logged in successfully');
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Something went wrong! Please try again.');
+            }
+        });
+
+
+
+
+        // Register functionality
+        document.getElementById('sign-up').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            // const data = {
+            //     name: formData.get('name'),
+            //     email: formData.get('email'),
+            //     password: formData.get('password'),
+            //     avatar: formData.get('avatar')
+            // }
+            // console.log(data);
+            
+
+            try {
+                const response = await fetch('/user/register', {
+                    method: 'POST',
+                    // headers: {
+                    //     'Content-Type': 'application/json'
+                    // },
+                    body: formData
+                });
+            
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.log(errorData);
+                    alert(errorData.errorMessage || 'An unexpected error occurred');
+                } else {
+                    const responseData = await response.json();
+                    // alert('User registered successfully');
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Something went wrong! Please try again.');
+            }
+        });
+        
+
+
+
+        // Page switching
+        const signUpButton = document.getElementById("signUp");
+        const signInButton = document.getElementById("signIn");
+        const container = document.getElementById("container");
+
+        signUpButton.addEventListener("click", () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener("click", () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        
+    </script>
+</body>
+
+</html>

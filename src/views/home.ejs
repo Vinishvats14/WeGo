@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeGo - Homepage</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="/img/logo-full.png" alt="logo">
+            </div>
+            <ul class="nav-list">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destination">Discover</a></li>
+                <li><a href="#cta">Services</a></li>
+                <li><a href="#why-us">Why WeGo</a></li>
+                <li><a href="#footer">Contact</a></li>
+            </ul>
+          
+            <% if (user) { %>
+              <div onclick="window.location.href=`/profile/<%= user._id %>`" class="user-profile">
+                <img class="user-avatar" src="<%= user.profileImage %>" alt="avatar">
+                <span><%= user.name %></span>
+              </div>
+            <% } else { %>
+                <a onclick="window.location.href = `/auth`" class="btn">Sign up</a>
+            <% } %>
+          
+
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <h1 class="hero-title">Explore. Dream. Discover.</h1>
+                <div class="search-bar">
+                    <input id="destinationInput" type="text" placeholder="Search amazing destinations...">
+                    <div id="destinationSearch" class="hero-btn"><button><i class="fa-solid fa-magnifying-glass"></i></button></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta" id="cta">
+            <div class="cta-container">
+                <h2 class="section-title">Ready to Explore the World with Excitement ?</h2>
+                <p class="section-text">Discover new horizons and create unforgettable memories with WeGo.</p>
+                <div class="btn-group">
+                    <a href="/itinerary" class="btn">Plan a Trip</a>
+                    <a href="/companion" class="btn">Tour Companion</a>
+                </div>
+            </div>
+            <div class="cta-img">
+                <img src="/img/backpack.png" alt="image">
+            </div>
+        </section>
+
+        <section class="enquiry" id="enquiry">
+            <div class="enquiry-bg"></div>
+            <div class="container">
+                <div class="enquiry-tabs">
+                    <button class="enquiry-tab active" data-tab="hotel">Hotel</button>
+                    <button class="enquiry-tab" data-tab="flight">Flight</button>
+                </div>
+                <div class="enquiry-content">
+                    <form class="enquiry-form hotel-form active">
+                        <input type="text" placeholder="Destination" required>
+                        <select required>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="affordable">Affordable</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                        <button type="submit" onclick="window.location.href=`/hotels`" class="btn">Search Hotels</button>
+                    </form>
+                    <div id="flightSearch" class="enquiry-form flight-form">
+                        <input type="text" placeholder="Origin" required>
+                        <input type="text" placeholder="Destination" required>
+                        <button type="submit" onclick="window.location.href=`/flights`" class="btn">Search Flights</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="popular" id="destination">
+            <div class="container">
+                <h2 class="section-title">Popular Destinations</h2>
+                <p class="section-text">Discover our most sought-after travel experiences</p>
+                
+    <div id="cards">
+        <div id="cardsWrapper">
+          <div onclick="window.location.href='/destination?place=Rome'" class="card">
+            <div class="image" style="background-image: url(/img/popular-1.jpg)">
+              <div class="screen"></div>
+              <div class="text">
+                <h2>Rome Italy <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></span></h2>
+                <p>A wonderful journey to Rome experiencing the best of Italian cuisine and culture.</p>
+              </div>
+            </div>
+          </div>
+          <div onclick="window.location.href='/destination?place=Paris'" class="card">
+            <div class="image" style="background-image: url(/img/popular-2.jpg)">
+              <div class="screen"></div>
+              <div class="text">
+                <h2>Paris, France <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span></h2>
+                <p>Discover the romance and charm of Paris with its iconic Eiffel Tower and exquisite French cuisine.</p>
+              </div>
+            </div>
+          </div>
+          <div onclick="window.location.href='/destination?place=Kyoto'" class="card">
+            <div class="image" style="background-image: url(/img/popular-3.jpg)">
+              <div class="screen"></div>
+              <div class="text">
+                <h2>Kyoto, Japan <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></span></h2>
+                <p>Experience the serene beauty of Kyoto, famous for its temples, gardens, and traditional wooden houses.</p>
+              </div>
+            </div>
+          </div>
+          <div onclick="window.location.href='/destination?place=TajMahal'" class="card">
+            <div class="image" style="background-image: url(/img/populer1.jpeg)">
+              <div class="screen"></div>
+              <div class="text">
+                <h2>Taj Mahal, Agra <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span></h2>
+                <p>White marble marvel in Agra, a symbol of love and a UNESCO World Heritage Site.</p>
+
+              </div>
+            </div>
+          </div>
+          <div onclick="window.location.href='/destination?place=QutubMinar'" class="card">
+            <div class="image" style="background-image: url(/img/populer2.jpeg)">
+              <div class="screen"></div>
+              <div class="text">
+                <h2>Qutub Minar <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span></h2>
+                <p>73-meter tall minaret in Delhi, showing Indo-Islamic architecture and carvings.</p>
+
+              </div>
+            </div>
+          </div>
+          <div onclick="window.location.href='/destination?place=RedFort'" class="card">
+            <div class="image" style="background-image: url(/img/populer3.jpeg)">
+              <div class="screen"></div>
+              <div class="text">
+                <h2>Red Fort, Delhi <span><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span></h2>
+                <p>Visit the historic fortification in Delhi as a symbol of India's rich history.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+            </div>
+        </section>
+
+        <section class="why-us" id="why-us">
+            <div class="container">
+                <h2 class="section-title">Why Choose Us</h2>
+                <div class="why-us-content">
+                    <div class="why-us-item">
+                        <i class="fa-solid fa-route"></i>
+                        <h3>Best Travel Plans</h3>
+                        <p>Our tailored travel plans are designed to fit your unique preferences, ensuring a memorable journey every time.</p>
+                      </div>
+                      <div class="why-us-item">
+                        <i class="fa-regular fa-compass"></i>
+                        <h3>Tour Companions</h3>
+                        <p>Connect with like-minded travelers and join exciting trips. Make new friends and explore the world together.</p>
+                      </div>
+                      <div class="why-us-item">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <h3>Veriety of Choices</h3>
+                        <p>Choose from a vast collection of destinations and activities, curated to offer the best experiences worldwide.</p>
+                      </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery" id="gallery">
+            <div class="container">
+                <h2 class="section-title">Photo Gallery</h2>
+                <p class="section-text">Glimpses of unforgettable moments from our travelers</p>
+                <ul class="gallery-grid">
+
+                    <li class="gallery-item" style="background-image: url(.//img/travel1.jpeg);"></li>
+        
+                    <li class="gallery-item" style="background-image: url(.//img/travel2.jpeg);"></li>
+        
+                    <li class="gallery-item" style="background-image: url(.//img/travel3.jpeg);"></li>
+        
+                    <li class="gallery-item" style="background-image: url(.//img/travel4.jpeg);"></li>
+        
+                    <li class="gallery-item" style="background-image: url(.//img/travel5.jpeg);"></li>
+        
+                  </ul>
+            </div>
+        </section>
+        <section class="happy-users">
+            <div class="container">
+                <h2>Happy Travelers</h2>
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <img src="https://loremflickr.com/200/200?random=4" alt="User 1">
+                        <p>"TravelBuddy made planning my dream vacation a breeze. The personalized recommendations were spot on!"</p>
+                        <div class="name">- Sarah M.</div>
+                    </div>
+                    <div class="testimonial">
+                        <img src="https://loremflickr.com/200/200?random=5" alt="User 2">
+                        <p>"I found an amazing travel companion through this platform. We had the adventure of a lifetime!"</p>
+                        <div class="name">- John D.</div>
+                    </div>
+                    <div class="testimonial">
+                        <img src="https://loremflickr.com/200/200?random=6" alt="User 3">
+                        <p>"The community reviews helped me discover hidden gems I would have never found on my own. Thank you, TravelBuddy!"</p>
+                        <div class="name">- Emily L.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/img/logo-full.png" alt="logo" class="footer-logo">
+                    <p class="footer-description">Your goto companion and travel gateway to extraordinary adventures around the world.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#discover">Discover</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 3146 Delhi, India</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@travelboom.com</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for travel updates and exclusive offers</p>
+                    <!-- <form class="newsletter-form"> -->
+                        <!-- <input type="email" placeholder="Your email" required> -->
+                        <button type="submit" class="btn">Subscribe</button>
+                    <!-- </form> -->
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WeGo. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Chatbot Scripts  -->
+    <script src="https://cdn.botpress.cloud/webchat/v2.1/inject.js"></script>
+    <script src="https://mediafiles.botpress.cloud/<your-bot-api-key>/webchat/v2.1/config.js"></script>
+
+    <!-- JQuery Script (3d cards) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Main Custom Script -->
+    <script src="/js/home.js"></script>
+
+
+
+    
+
+
+</body>
+</html>
+
+

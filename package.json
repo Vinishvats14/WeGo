@@ -1,0 +1,36 @@
+{
+  "name": "wego",
+  "version": "1.0.0",
+  "description": "WeGo: We Encourage Going On... is an trvell and tour related web app, it provide features like destination search, flight enquiry, hotel searches, plan a trip, can join a trip or invite others to our trip.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+  },
+  "author": "Vineet Kumar Sahu",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^9.5.1",
+    "@google/generative-ai": "^0.17.1",
+    "bcrypt": "^5.1.1",
+    "child_process": "^1.0.2",
+    "child-process": "^1.0.2",
+    "cloudinary": "^2.4.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.1",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.15",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3"
+  }
+}

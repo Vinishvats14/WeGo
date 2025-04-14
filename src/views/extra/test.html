@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Planner</title>
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --secondary-color: #e6e6fa;
+            --text-color: #333;
+            --background-color: #fff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header, footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        main {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            width: 30%;
+            padding-right: 20px;
+        }
+
+        .content {
+            width: 70%;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .trip-item {
+            background-color: white;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6a1cb7;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .flip-container {
+            perspective: 1000px;
+        }
+
+        .flipper {
+            transition: 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .front, .back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        .flip-container.flipped .flipper {
+            transform: rotateY(180deg);
+        }
+
+        .fade-container {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .fade-container.faded {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Trip Planner</h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="sidebar">
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="front">
+                            <div class="card">
+                                <h2>Join a Trip</h2>
+                                <input type="text" placeholder="Search">
+                                <h3>Sort by posted date</h3>
+                                <button>Oldest posted</button>
+                                <button>Latest posted</button>
+                                <h3>Sort by starting date</h3>
+                                <button>Trips within a week</button>
+                                <button>Trips after 15 days</button>
+                                <button>Trips after a month</button>
+                                <button id="findTripsBtn">Find Trips</button>
+                            </div>
+                            <button id="postTripBtn">Post a Trip</button>
+                        </div>
+                        <div class="back">
+                            <div class="card">
+                                <h2>Post a Trip</h2>
+                                <input type="text" placeholder="Destination">
+                                <input type="date" placeholder="Start Date">
+                                <input type="date" placeholder="End Date">
+                                <textarea placeholder="Description for Companion (optional)"></textarea>
+                                <input type="number" placeholder="Companion Needed">
+                                <button id="findCompanionsBtn">Find Companions</button>
+                            </div>
+                            <button id="joinTripBtn">Join a Trip</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div id="availableTrips" class="fade-container">
+                    <h2>Available Trips...</h2>
+                    <div class="trip-item">
+                        <h3>Trip to Varanasi, UP</h3>
+                        <p>From 15/18/2024 to 23/18/2024</p>
+                        <p>I need 3 tour companions, in between the age group of 28 - 27, both men and women can join. Note that we will cover most distance on foot, so companion must be comfortable with long distance walkings.</p>
+                        <p>Companion Needed: 1</p>
+                        <button>I am Interested</button>
+                    </div>
+                    <!-- More trip items -->
+                </div>
+                <div id="postedTrips" class="fade-container" style="display: none;">
+                    <h2>Your posted Trips...</h2>
+                    <h3>UPCOMING</h3>
+                    <div class="trip-item">
+                        <h3>Trip to Varanasi, UP</h3>
+                        <p>From 15/18/2024 to 23/18/2024</p>
+                        <p>I need 3 tour companions, in between the age group of 28 - 27, both men and women can join. Note that we will cover most distance on foot, so companion must be comfortable with long distance walkings.</p>
+                        <p>Companion Needed: 2</p>
+                        <button>Mark as Completed</button>
+                        <button>Delete</button>
+                    </div>
+                    <h3>COMPLETED</h3>
+                    <!-- Completed trips -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Trip Planner. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const postTripBtn = document.getElementById('postTripBtn');
+        const joinTripBtn = document.getElementById('joinTripBtn');
+        const flipContainer = document.querySelector('.flip-container');
+        const availableTrips = document.getElementById('availableTrips');
+        const postedTrips = document.getElementById('postedTrips');
+
+        postTripBtn.addEventListener('click', () => {
+            flipContainer.classList.add('flipped');
+            availableTrips.classList.add('faded');
+            setTimeout(() => {
+                availableTrips.style.display = 'none';
+                postedTrips.style.display = 'block';
+                setTimeout(() => postedTrips.classList.remove('faded'), 50);
+            }, 500);
+        });
+
+        joinTripBtn.addEventListener('click', () => {
+            flipContainer.classList.remove('flipped');
+            postedTrips.classList.add('faded');
+            setTimeout(() => {
+                postedTrips.style.display = 'none';
+                availableTrips.style.display = 'block';
+                setTimeout(() => availableTrips.classList.remove('faded'), 50);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
